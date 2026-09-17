@@ -53,21 +53,21 @@ docker compose down
 
 **Prerequisites:** .NET 10.0 SDK and Node.js 22+ / pnpm.
 
-1. **Start the Backend:**
+ **1. Install Dependencies:**
    ```bash
-   cd Backend
-   dotnet run
+   pnpm install
    ```
-   *Runs on [http://localhost:8080](http://localhost:8080).*
 
-2. **Start Backend & Frontend Concurrently:**
+ **2. Start Backend & Frontend Concurrently:**
    ```bash
    pnpm dev
    ```
    
    (Or run individually in separate terminals: cd Backend && dotnet run and pnpm --filter frontend dev)
+   
+   *Frontend runs on [http://localhost:5173](http://localhost:5173).*
 
-   *Runs on [http://localhost:5173](http://localhost:5173).*
+   *Backend runs on [http://localhost:8080](http://localhost:8080).*
 
 ## Layout
 
