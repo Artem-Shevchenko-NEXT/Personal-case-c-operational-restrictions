@@ -1,4 +1,4 @@
-﻿namespace Backend.Tests;
+namespace Backend.Tests;
 
 public class UnitTest1
 {
@@ -7,4 +7,4 @@ public class UnitTest1
     {
         Assert.True(true);
     }
-}cd
+}
