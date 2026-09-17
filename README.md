@@ -60,12 +60,13 @@ docker compose down
    ```
    *Runs on [http://localhost:8080](http://localhost:8080).*
 
-2. **Start the Frontend:**
+2. **Start Backend & Frontend Concurrently:**
    ```bash
-   cd frontend
-   pnpm install
-   pnpm run dev
+   pnpm dev
    ```
+   
+   (Or run individually in separate terminals: cd Backend && dotnet run and pnpm --filter frontend dev)
+
    *Runs on [http://localhost:5173](http://localhost:5173).*
 
 ## Layout
