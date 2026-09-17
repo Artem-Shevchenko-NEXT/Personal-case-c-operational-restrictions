@@ -6,7 +6,10 @@
     "dev": "concurrently -n backend,frontend -c blue,green \"pnpm:dev:backend\" \"pnpm:dev:frontend\"",
     "dev:backend": "dotnet run --project Backend --launch-profile http",
     "dev:frontend": "pnpm --filter frontend dev",
-    "build": "pnpm --filter frontend build"
+    "build": "pnpm --filter frontend build",
+    "test": "dotnet test && pnpm --filter frontend test:run",
+    "test:backend": "dotnet test",
+    "test:frontend": "pnpm --filter frontend test:run"
   },
   "devDependencies": {
     "concurrently": "^9.1.0",
