@@ -6,7 +6,9 @@
     "dev": "concurrently -n backend,frontend -c blue,green \"pnpm:dev:backend\" \"pnpm:dev:frontend\"",
     "dev:backend": "dotnet run --project Backend --launch-profile http",
     "dev:frontend": "pnpm --filter frontend dev",
-    "build": "pnpm --filter frontend build"
+    "build": "pnpm --filter frontend build",
+    "format:backend": "dotnet format Backend/Backend.csproj",
+    "lint:backend": "dotnet build Backend/Backend.csproj"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
