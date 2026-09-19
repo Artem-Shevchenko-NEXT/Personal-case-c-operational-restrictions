@@ -7,6 +7,9 @@
     "dev:backend": "dotnet run --project Backend --launch-profile http",
     "dev:frontend": "pnpm --filter frontend dev",
     "build": "pnpm --filter frontend build",
+    "format": "dotnet format CaseC.slnx && pnpm --filter frontend format",
+    "format:check": "dotnet format --verify-no-changes CaseC.slnx && pnpm --filter frontend format:check",
+    "lint": "dotnet format --verify-no-changes CaseC.slnx && dotnet build CaseC.slnx --no-incremental /warnaserror && pnpm --filter frontend lint",
     "test": "dotnet test && pnpm --filter frontend test:run",
     "test:backend": "dotnet test",
     "test:frontend": "pnpm --filter frontend test:run"

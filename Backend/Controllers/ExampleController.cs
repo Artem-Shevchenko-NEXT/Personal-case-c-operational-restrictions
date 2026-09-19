@@ -1,4 +1,5 @@
 using Backend.Services;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers;
@@ -10,7 +11,6 @@ namespace Backend.Controllers;
 public class ExampleController : ControllerBase
 {
     private readonly IExampleService _exampleService;
-
     public ExampleController(IExampleService exampleService)
     {
         _exampleService = exampleService;

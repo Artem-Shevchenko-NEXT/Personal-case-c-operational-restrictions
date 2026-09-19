@@ -69,6 +69,12 @@ docker compose down
 
    *Backend runs on [http://localhost:8080](http://localhost:8080).*
 
+ **3. Format & Lint:**
+   ```bash
+   pnpm format    # Formats both backend (.NET) and frontend (Prettier)
+   pnpm lint      # Lints both backend (Roslyn analyzers) and frontend (ESLint)
+   ```
+
 ## Layout
 
 ```
