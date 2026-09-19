@@ -75,10 +75,18 @@ docker compose down
    pnpm lint      # Lints both backend (Roslyn analyzers) and frontend (ESLint)
    ```
 
+ **4. Run Tests:**
+   ```bash
+   pnpm test           # Runs both backend (.NET) and frontend (Vitest) tests
+   pnpm test:backend   # Backend tests only (dotnet test)
+   pnpm test:frontend  # Frontend tests only (Vitest)
+   ```
+
 ## Layout
 
 ```
 Backend/       .NET 10 Web API (MVCS architecture, EF Core, PostgreSQL provider)
+Backend.Tests/ backend unit and integration test suite (xUnit)
 frontend/      React + Vite SPA with React Router
 contracts/     published interfaces other teams build against, versioned
 docs/adr/      architecture decision records
