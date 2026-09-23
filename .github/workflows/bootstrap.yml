@@ -1,0 +1,44 @@
+#GitHub Action Deployment
+name: Server Bootstrap - Install Docker and Docker Compose
+
+on: workflow_dispatch
+
+jobs:
+  bootstrap:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Execute remote SSH commands using key
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+                # Download and run Docker install script
+                curl -fsSL https://get.docker.com -o get-docker.sh
+                sudo sh get-docker.sh
+
+                # Add user to docker group
+                sudo usermod -aG docker ${{ secrets.SERVER_USER }}
+                
+                # Verify Docker installation
+                echo "=== Checking Docker installation ==="
+                DOCKER_VERSION=$(docker --version 2>&1)
+                if ! echo "$DOCKER_VERSION" | grep -q "Docker version"; then
+                echo "ERROR: Docker is not installed correctly. Got: $DOCKER_VERSION"
+                exit 1
+                fi
+                echo "Docker: $DOCKER_VERSION"
+
+                # Verify Docker Compose installation
+                echo "=== Checking Docker Compose installation ==="
+                COMPOSE_VERSION=$(docker-compose --version 2>&1)
+                if ! echo "$COMPOSE_VERSION" | grep -q "docker-compose version"; then
+                echo "ERROR: Docker Compose is not installed correctly. Got: $COMPOSE_VERSION"
+                exit 1
+                fi
+                echo "Docker Compose: $COMPOSE_VERSION"
+
+                echo "Docker and Docker Compose installed successfully!"
+        
