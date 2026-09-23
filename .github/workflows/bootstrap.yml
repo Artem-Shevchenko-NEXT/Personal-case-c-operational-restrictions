@@ -24,7 +24,7 @@ jobs:
                 
                 # Verify Docker installation
                 echo "=== Checking Docker installation ==="
-                DOCKER_VERSION=$(docker version 2>&1)
+                DOCKER_VERSION=$(docker --version 2>&1)
                 if ! echo "$DOCKER_VERSION" | grep -q "Docker version"; then
                 echo "ERROR: Docker is not installed correctly. Got: $DOCKER_VERSION"
                 exit 1
