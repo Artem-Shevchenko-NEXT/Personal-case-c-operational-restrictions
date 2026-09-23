@@ -34,7 +34,7 @@ jobs:
                 # Verify Docker Compose installation
                 echo "=== Checking Docker Compose installation ==="
                 COMPOSE_VERSION=$(docker compose version 2>&1)
-                if ! echo "$COMPOSE_VERSION" | grep -q "docker-compose version"; then
+                if ! echo "$COMPOSE_VERSION" | grep -q "Docker Compose version"; then
                 echo "ERROR: Docker Compose is not installed correctly. Got: $COMPOSE_VERSION"
                 exit 1
                 fi
