@@ -51,7 +51,6 @@ jobs:
           script: |
                 # Update OS so Docker is accessible
                 sudo apt update && sudo apt upgrade -y
-                reboot
 
                 # Create external network for Traefik
                 docker network create traefik-net
@@ -67,5 +66,34 @@ jobs:
 
                 echo "Traefik network installed successfully!"
 
-                # Create directory for Traefik
-                mkdir -p /opt/stacks/traefik && cd /opt/stacks/traefik
+                # Create directory with corrct premissions 
+                sudo mkdir -p /opt/stacks/traefik
+                sudo chown -R $USER:$USER /opt/stacks
+                
+                cd /opt/stacks/traefik
+
+                cat << 'EOF' > docker-compose.yml
+                services:
+                  traefik:
+                    image: traefik:v3.7.13
+                    container_name: global-traefik
+                    restart: always
+                    command:
+                      - "--api.insecure=false"
+                      - "--providers.docker=true"
+                      - "--providers.docker.exposedbydefault=false"
+                      - "--entrypoints.web.address=:80"
+                    ports:
+                      - "80:80"
+                    volumes:
+                      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+                    networks:
+                      - traefik-net
+
+                networks:
+                  traefik-net:
+                    external: true
+                EOF
+
+                # Spin up Traefik
+                docker compose up -d
