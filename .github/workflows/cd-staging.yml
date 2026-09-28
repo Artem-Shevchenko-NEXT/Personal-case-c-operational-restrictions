@@ -1,4 +1,4 @@
-name: CD - Staging
+name: Deploy Staging
 
 on:
   push:
@@ -6,9 +6,9 @@ on:
       - staging
     paths:
       - 'docker-compose.yml'
+      - 'docker-compose.prod.yml'
       - 'Backend/**'
       - 'frontend/**'
-      - 'traefik/**'
       - '.github/workflows/cd-staging.yml'
 
 jobs:
@@ -28,29 +28,35 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           
-          # Files/folders you want to copy
-          source: "docker-compose.yml,Backend/,frontend/,traefik/"
-          
-          # Folder on the server where everything should be placed
-          target: "/home/${{ secrets.SERVER_USER }}/metro-staging"
-          strip_components: 0
+          # Files/folders that we copy
+          source: "docker-compose.yml,docker-compose.prod.yml,Backend/,frontend/"
+
+          # Folder on the server where everything is placed
+          target: "/opt/stacks/staging"
 
       # 3. Build and start the containers on the server
       - name: Deploy on server
         uses: appleboy/ssh-action@v1.2.0
+        env:
+          DOMAIN: ${{ secrets.DOMAIN }}
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: DOMAIN
           script: |
-            cd /home/${{ secrets.SERVER_USER }}/metro-staging
+            cd /opt/stacks/staging
+
+            # Export environment variables for the Compose files to use
+            export BRANCH_NAME="staging"
+            export DOMAIN=$DOMAIN
 
             echo "Building and starting containers..."
-            docker compose down --remove-orphans || true
-            docker compose build --no-cache
-            docker compose up -d
+            docker compose -f docker-compose.yml -f docker-compose.prod.yml down --remove-orphans || true
+            docker compose -f docker-compose.yml -f docker-compose.prod.yml build
+            docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
-            echo "Cleaning up old images..."
+            echo "Cleaning up old image layers..."
             docker image prune -f
 
-            echo "Staging deployment finished!" 
+            echo "Staging deployment finished!"
