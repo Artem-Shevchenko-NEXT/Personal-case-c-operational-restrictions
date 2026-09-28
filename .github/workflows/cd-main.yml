@@ -2,14 +2,7 @@ name: Deploy Main
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - 'docker-compose.yml'
-      - 'docker-compose.prod.yml'
-      - 'Backend/**'
-      - 'frontend/**'
-      - '.github/workflows/cd-main.yml'
+    branches: ["main"]
 
 jobs:
   deploy:
@@ -29,7 +22,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
 
           # Files/folders that we copy
-          source: "docker-compose.yml,docker-compose.prod.yml,Backend/,frontend/"
+          source: "."
 
           # Folder on the server where everything is placed
           target: "/opt/stacks/main"

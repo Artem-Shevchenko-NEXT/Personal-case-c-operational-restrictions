@@ -2,14 +2,7 @@ name: Deploy Development
 
 on:
   push:
-    branches:
-      - development
-    paths:
-      - 'docker-compose.yml'
-      - 'docker-compose.prod.yml'
-      - 'Backend/**'
-      - 'frontend/**'
-      - '.github/workflows/cd-dev.yml'
+    branches: ["development"]
 
 jobs:
   deploy:
@@ -20,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Copy the necessary files to the server
+      # 2. Copy the necessary files to the server 
       - name: Copy files to server
         uses: appleboy/scp-action@v1
         with:
@@ -29,7 +22,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
 
           # Files/folders that we copy
-          source: "docker-compose.yml,docker-compose.prod.yml,Backend/,frontend/"
+          source: "."
 
           # Folder on the server where everything is placed
           target: "/opt/stacks/dev"
