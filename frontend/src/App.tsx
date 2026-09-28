@@ -34,6 +34,7 @@ function App() {
     <div className="container">
       <h1>Hello World!</h1>
       <p>Frontend: React + Vite</p>
+      <p>This is the development branch, deployed autonomusly</p>
 
       <div className="backend-card">
         <h2>Backend Status (.NET 10)</h2>
