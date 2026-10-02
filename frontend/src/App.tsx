@@ -29,13 +29,12 @@ function App() {
         setLoading(false);
       });
   }, []);
-
   return (
     <div className="container">
       <h1>Hello World!</h1>
       <p>Frontend: React + Vite</p>
-      <p>This is the main branch, deployed autonomously</p>
-
+      <p>This is the staging branch, deployed autonomously</p>
+      
       <div className="backend-card">
         <h2>Backend Status (.NET 10)</h2>
         {loading && <p>Connecting to .NET backend...</p>}
