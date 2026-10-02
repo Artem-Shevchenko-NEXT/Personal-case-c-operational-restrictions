@@ -30,7 +30,7 @@ jobs:
 
       # 2. Build and start the containers on the server
       - name: Deploy on server
-        uses: appleboy/ssh-action@v1.2.0
+        uses: appleboy/ssh-action@v1
         env:
           DOMAIN: ${{ secrets.DOMAIN }}
         with:
