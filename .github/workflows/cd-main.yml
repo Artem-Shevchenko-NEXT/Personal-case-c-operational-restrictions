@@ -27,7 +27,7 @@ jobs:
           # Folder on the server where everything is placed
           target: "/opt/stacks/main"
 
-      # 3. Build and start the containers on the server     
+      # 3. Build and start the containers on the server     test
       - name: Deploy on server
         uses: appleboy/ssh-action@v1.2.0
         env:
