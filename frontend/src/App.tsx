@@ -29,12 +29,11 @@ function App() {
         setLoading(false);
       });
   }, []);
- // comment  again again
   return (
     <div className="container">
       <h1>Hello World!</h1>
       <p>Frontend: React + Vite</p>
-      <p>This is the development branch, deployed autonomusly</p>
+      <p>This is the development branch, deployed autonomusly, with all pull request changes addressed</p>
 
       <div className="backend-card">
         <h2>Backend Status (.NET 10)</h2>
