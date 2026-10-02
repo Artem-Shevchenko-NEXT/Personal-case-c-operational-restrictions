@@ -12,6 +12,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4  
+        
         # 1. Copy the necessary files to the server
       - uses: actions/checkout@v4
       - name: Copy files

@@ -8,6 +8,9 @@ jobs:
     name: Build and deploy
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
       - name: Install Docker and Docker Compose
         uses: appleboy/ssh-action@v1
         with:
@@ -51,11 +54,12 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           fingerprint: ${{ secrets.SERVER_FINGERPRINT }}
           script: |
-                # Update OS so Docker is accessible
+                # Update OS 
+                while sudo fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do echo 'Waiting for apt lock...'; sleep 5; done
                 sudo apt update && sudo apt upgrade -y
 
                 # Create external network for Traefik
-                docker network create traefik-net 2>&1 || docker network create traefik-net
+                docker network inspect traefik-net >/dev/null 2>&1 || docker network create traefik-net
 
                  # Verify network installation for Traefik
                 echo "=== Checking network installation ==="
