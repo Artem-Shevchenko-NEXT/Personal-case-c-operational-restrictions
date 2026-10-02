@@ -29,7 +29,6 @@ function App() {
         setLoading(false);
       });
   }, []);
-
   return (
     <div className="container">
       <h1>Hello World!</h1>
