@@ -7,8 +7,8 @@ public enum CancellationStatus
     Active,                 // OR is in force
     SignedByOriginator,     // step 1
     ApprovedByDom,          // step 2
-    MitigationsCancelled,   // step 3 (CRS signed), waiting for signing list
-    Cancelled               // step 4: everyone signed
+    MitigationsCancelled,   // step 3 (CRS signed), OR is out of force, waiting for signing list to archive
+    Archived               // step 4: everyone signed
 }
 
 public class OperationalRestriction
@@ -66,7 +66,7 @@ public class OperationalRestriction
             CancellationStatus.Active               => CancellationStatus.SignedByOriginator,
             CancellationStatus.SignedByOriginator   => CancellationStatus.ApprovedByDom,
             CancellationStatus.ApprovedByDom        => CancellationStatus.MitigationsCancelled,
-            CancellationStatus.MitigationsCancelled => CancellationStatus.Cancelled,
+            CancellationStatus.MitigationsCancelled => CancellationStatus.Archived,
             _ => throw new InvalidOperationException($"No next state after {Status}.")
         };
 
