@@ -11,4 +11,14 @@ public class User
     public string Email { get; set; } = string.Empty;
 
     public string PasswordHash { get; set; } = string.Empty;
+
+    public userRole Role { get; set; } = UserRole.Empty;
+
+    public date Start_date { get; set; } = Date.Empty;
+
+    public date End_date { get; set; } = Date.Empty;
+
+    public userStatus User_status { get; set; } = userStatus.Empty;
+
+    public workingStatus Working_status { get; set; } = workingStatus.Empty;
 }
