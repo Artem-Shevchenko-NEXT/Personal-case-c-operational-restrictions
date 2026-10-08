@@ -10,6 +10,7 @@ using System.ComponentModel.DataAnnotations;
 
 public class StateMachine
 {
+    // Function to call if you wish to transition
     public void Transition(OperationalRestriction operationalRestriction)
     {
         bool requirements = Require(operationalRestriction);
@@ -28,7 +29,7 @@ public class StateMachine
         }
     }
 
-
+    // calls the right requirement function and returns a bool
     public bool Require(OperationalRestriction operationalRestriction)
     {
         switch (operationalRestriction.State)
