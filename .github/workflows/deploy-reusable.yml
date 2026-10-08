@@ -57,4 +57,5 @@ jobs:
             docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
             docker image prune -f
+            
             echo "${{ inputs.environment }} deployment finished!"
