@@ -1,3 +1,4 @@
+using Backend.Models.Enums;
 namespace Backend.Models.Entities;
 
 // MODEL - ENTITY (MVCS):
@@ -12,13 +13,18 @@ public class User
 
     public string PasswordHash { get; set; } = string.Empty;
 
-    public userRole Role { get; set; } = UserRole.Empty;
+    public UserRole Role { get; set; } = UserRole.Empty;
 
-    public date Start_date { get; set; } = Date.Empty;
+    public DateTime StartDate { get; set; } = DateTime.Now;
 
-    public date End_date { get; set; } = Date.Empty;
+    public DateTime EndDate { get; set; } = DateTime.Now;
 
-    public userStatus User_status { get; set; } = userStatus.Empty;
+    public UserStatus UserStatus { get; set; } = UserStatus.Empty;
 
-    public workingStatus Working_status { get; set; } = workingStatus.Empty;
+    public WorkingStatus WorkingStatus { get; set; } = WorkingStatus.Empty;
+
+    public Guid ReportsTo { get; set; } = Guid.Empty;
+
+    public DateTime DateCreated { get; set; } = DateTime.Now;
+
 }
