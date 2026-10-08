@@ -2,10 +2,16 @@ namespace Backend.Models.Enum;
 
 public enum RestrictionState
 {
-  Draft,
-  PendingApproval,
-  Approved,
-  Active,
-  Archived,
-  Cancelled
+  DRAFT,
+  PENDING_DOM_APPROVAL,  
+  RETURNED_FOR_CHANGES,
+  CANCELLED_REFUSED,
+  APPROVED,
+  ACTIVE,
+  PENDING_CANCELLATION,
+  CANCELLATION_APPROVED,
+  OUT_OF_FORCE,
+  AWAITING_OPERATOR_SIGNATURE,
+  AWAITING_OPERATOR_SIGN_OUT,
+  ARCHIVED
 }
