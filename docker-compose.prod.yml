@@ -7,6 +7,7 @@ services:
     volumes: !reset [] # Removes local source code mounts from base file
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
+      - Jwt__SigningKey=${JWT_SIGNING_KEY}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.backend-${BRANCH_NAME:-dev}.rule=Host(`api-${BRANCH_NAME:-dev}.${DOMAIN}`)"

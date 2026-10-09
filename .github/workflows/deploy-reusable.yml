@@ -36,12 +36,13 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           fingerprint: ${{ secrets.SERVER_FINGERPRINT }}
-          envs: DOMAIN
+          envs: DOMAIN,JWT_SIGNING_KEY
           script: |
             cd ${{ inputs.target_dir }}
 
             export BRANCH_NAME="${{ inputs.environment }}"
             export DOMAIN=$DOMAIN
+            export JWT_SIGNING_KEY=$JWT_SIGNING_KEY
 
             echo "Building and starting containers for ${{ inputs.environment }}..."
             docker compose -f docker-compose.yml -f docker-compose.prod.yml down --remove-orphans || true
