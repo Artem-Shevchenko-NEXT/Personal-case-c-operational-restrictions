@@ -23,7 +23,11 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           fingerprint: ${{ secrets.SERVER_FINGERPRINT }}
+
+          # Files/folders that we copy
           source: "."
+
+          # Folder on the server where everything is placed
           target: ${{ inputs.target_dir }}
 
       # 2. Build and start the containers on the server
