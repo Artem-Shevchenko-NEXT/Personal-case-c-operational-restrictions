@@ -29,7 +29,7 @@ export function LoginPage() {
 
   return (
     <div className="container">
-      <h1>Development Login Page</h1>
+      <h1>Login</h1>
 
       <form onSubmit={handleSubmit} className="backend-card">
         <div
