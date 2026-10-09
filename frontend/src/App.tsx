@@ -34,6 +34,7 @@ function App() {
   return (
     <div className="container">
       <h1>Hello World!</h1>
+      <p>Development Version</p>
       <p>Frontend: React + Vite</p>
 
       <div className="backend-card">
