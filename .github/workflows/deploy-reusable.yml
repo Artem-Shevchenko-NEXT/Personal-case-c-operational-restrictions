@@ -41,8 +41,8 @@ jobs:
             cd ${{ inputs.target_dir }}
 
             export BRANCH_NAME="${{ inputs.environment }}"
-            export DOMAIN=$DOMAIN
-            export JWT_SIGNING_KEY=$JWT_SIGNING_KEY
+            export JWT_SIGNING_KEY="${JWT_SIGNING_KEY}"
+            export DOMAIN="${DOMAIN}"
 
             echo "Building and starting containers for ${{ inputs.environment }}..."
             docker compose -f docker-compose.yml -f docker-compose.prod.yml down --remove-orphans || true
