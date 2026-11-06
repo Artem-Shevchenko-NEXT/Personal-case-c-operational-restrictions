@@ -1,11 +1,19 @@
+using System.Reflection;
 using System.Text;
 
 using Backend.Configuration;
+using Backend.Data;
+using Backend.Lifecycle;
+using Backend.Models.DTOs;
+using Backend.Models.Entities;
 using Backend.Services;
 using Backend.Services.Auth;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+
+using Nelibur.ObjectMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +22,31 @@ builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 builder.Services.AddScoped<IExampleService, ExampleService>();
 
+
+// Register Lifecycle services
+builder.Services.AddScoped<RestrictionLifecycleService>();
+builder.Services.AddScoped<IOperationalRestrictionService, OperationalRestrictionService>();
+builder.Services.AddScoped<IOperationalRestrictionRepository, OperationalRestrictionRepository>();
+builder.Services.AddScoped<IRestrictionTransitionEventRepository, RestrictionTransitionEventRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<SignatureService>();
+
+// Register Guards
+builder.Services.AddSingleton<IRestrictionGuard, StartDateIsFoundGuard>();
+builder.Services.AddSingleton<IRestrictionGuard, OperationalRestrictionIdIsFound>();
+builder.Services.AddSingleton<IRestrictionGuard, DescriptionTextIsFound>();
+builder.Services.AddSingleton<IRestrictionGuard, OriginatorSignatureIsFound>();
+builder.Services.AddSingleton<IRestrictionGuard, DutyOperationsManagerSignatureIsFound>();
+builder.Services.AddSingleton<IRestrictionGuard, ControlRoomSupervisorSignatureIsFound>();
+builder.Services.AddSingleton<IRestrictionGuard, OperatorsAreAssigned>();
+builder.Services.AddSingleton<IRestrictionGuard, ReturnedForChanges>();
+builder.Services.AddSingleton<IRestrictionGuard, CancelledRefused>();
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.SectionName));
+TinyMapper.Bind<User, UserDto>();
 builder.Services.AddSingleton<PasswordHasher>();
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<AuthService>();
@@ -53,8 +85,8 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(policy =>
     {
         policy.WithOrigins(
-                  "http://localhost:5173",
-                  "http://127.0.0.1:5173"
+                "http://localhost:5173",
+                "http://127.0.0.1:5173"
               )
               .AllowAnyHeader()
               .AllowAnyMethod()
@@ -88,4 +120,17 @@ app.MapGet("/api/hello", () => new
     timestamp = DateTime.UtcNow
 });
 
+// Apply EF migrations and seed data (Development only, and not while EF tools are running)
+if (app.Environment.IsDevelopment() &&
+    Assembly.GetEntryAssembly()?.GetName().Name != "ef")
+{
+    using var scope = app.Services.CreateScope();
+    var appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await appDbContext.Database.MigrateAsync();
+    await DbSeeder.SeedAsync(appDbContext);
+}
+
 app.Run();
+
+// Makes Program visible to WebApplicationFactory in the integration tests.
+public partial class Program { }
